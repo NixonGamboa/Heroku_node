@@ -1,6 +1,6 @@
 const express = require("express");
 
-//const studentsService = require("");
+const studentsService = require("../services/students");
 
 function studentsApi(app) {
   const router = express.Router();
@@ -8,7 +8,7 @@ function studentsApi(app) {
 
   router.get("/", async (req, res, next) => {
       try {
-        const students =  { name: "Nixon" };
+        const students =  await studentsService.getStudents();
         res.status(200).json({
           data: students,
           message: "students listed",
