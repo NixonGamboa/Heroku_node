@@ -7,8 +7,9 @@ function studentsApi(app) {
   app.use("/api/sofkau/students", router);
 
   router.get("/", async (req, res, next) => {
-      try {
-        const students =  await studentsService.getStudents();
+    const { tags } = req.query;  
+    try {
+        const students =  await studentsService.getStudents({ tags });
         res.status(200).json({
           data: students,
           message: "students listed",
