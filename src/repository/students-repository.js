@@ -23,6 +23,20 @@ function getAll(collection, query) {
     return db.collection(collection).find(query).toArray();
   });
 }
+function getById(collection, id) {
+  return connect().then((db) => {
+    return db.collection(collection).findOne({ _id: ObjectId(id) });
+  });
+}
+function update(collection, id, data) {
+  return connect()
+    .then((db) => {
+      return db
+        .collection(collection)
+        .updateOne({ _id: ObjectId(id) }, { $set: data }, { upsert: true });
+    })
+    .then((result) => result.upsertedId || id);
+}
 
 function drop(collection) {
   return connect().then((db) => {
@@ -31,6 +45,8 @@ function drop(collection) {
 }
 const repository = {
   getAll,
+  getById,
+  update,
   drop,
 };
 module.exports = repository;
