@@ -24,7 +24,7 @@ function studentsApi(app) {
     try {
       const students = await studentsService.getRanking();
       res.status(200).json({
-        data: students,
+        data: { orderedStudents: students },
         message: "students listed",
       });
     } catch {
