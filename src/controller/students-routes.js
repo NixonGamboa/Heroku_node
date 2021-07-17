@@ -20,12 +20,22 @@ function studentsApi(app) {
       next(err);
     }
   });
+  router.get("/ranking", async (req, res, next) => {
+    try {
+      const students = await studentsService.getRanking();
+      res.status(200).json({
+        data: students,
+        message: "students listed",
+      });
+    } catch {
+      next(err);
+    }
+  });
   router.patch(
     "/:studentId/",
     validationHandler({ studentId: studentIdSchema }, "params"),
     async (req, res, next) => {
       const { studentId } = req.params;
-      //const { body: vaccinateAnimal } = req;
       try {
         const rankingStudent = await studentsService.voteStudent(studentId);
         res.status(200).json({
